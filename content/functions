@@ -1,0 +1,97 @@
+JavaScript - Funktionen
+=======================
+
+JavaScript hat Funktionen erster Ordnung, das
+heißt, Funktionen können in Variablen gespeichert
+werden, als Parameter übergeben werden und auch
+als Rückgabewert einer Funktion zurückgegeben werden.
+
+Eine Funktionsdefinition in JavaScript sieht zB. folgendermaßen aus:
+
+	function funktionsName (x, y, z) {
+		return x + y - z;
+	}
+
+test: Implementiere eine Funktion namens 'fib'
+	expect(fib).to.be.a('function');
+
+test: fib sollte für 0 eine 1 und für 1 eine 1 zurückgegeben
+	expect(fib(0)).to.be(1);
+	expect(fib(1)).to.be(1);	
+
+Ab hier braucht fib einen Parameter, nennen wir ihn vielleicht mal `n`
+
+test: fib(2) sollte 2 ergeben
+	expect(fib(2)).to.be(2);
+
+Ok, fib soll offensichtlich die Fibonacci-Reihe implementieren, Am einfachsten geht das mit Rekursion.
+
+test: Fib sollte alle Fibonacci-Zahlen bis 20 kennen
+	for(var i = 3; i <= 20; i++){
+		expect(fib(i)).to.be(fib(i - 1) + fib(i - 2));
+	}
+
+In JavaScript können Funktionen auch als Werte übergeben werden.
+Probieren wir das mal am Beispiel forEach
+
+	var largest;
+	[1, 2, 3].forEach(function(element){
+		if (element > largest)
+			largest = element;
+	});
+	
+	console.log('Das größte Element in der Liste ist: ' + largest);
+
+test: Definiere eine Funktion sum, die alle Elemente einer Liste addiert.
+	expect(sum([])).to.be(0);
+	expect(sum([1])).to.be(1);
+	expect(sum([2])).to.be(2);
+	expect(sum([1, 1])).to.be(2);
+	expect(sum([16, 81, -13, 4, 6])).to.be(94);
+
+Ein Funktionsparameter sieht aus wie ein normaler Parameter, nur dass er
+später wie eine Funktion angewendet werden kann
+
+	function myOwnForEach(liste, funktion){
+		for(i in liste){
+			var aktuellesElement = liste[i];
+			funktion(aktuellesElement);
+		}
+	}
+
+test: Definiere eine Funktion applyTo, die eine Funktion auf zwei weitere Parameter anwendet
+	expect(applyTo(sum, 2, 3)).to.be(5);
+	
+	function parameterReturningFunction (x, y){
+		return [x, y];
+	}
+	
+	expect(parameterReturningFunction("first", "second")).to.eql(["first", "second"]);
+
+Eine Funktion kann auch eine Funktion als Wert zurückgeben
+
+	function baueGroesserGleichFilter(schwellwert){
+		return function(x){
+			return x >= schwellwert;
+		}
+	}
+	groesserGleich27 = baueGroesserGleichFilter(27);
+	groesserGleich27(28)		// true
+	groesserGleich27(25)		// false
+
+test: Definiere eine Funktion createGreeter, die eine Gruß-Funktion zurückgibt
+	expect(createGreeter('Grußformel')).to.be.a('function');
+	
+	var englishGreeter = createGreeter('Hi, my name is')
+	expect(englishGreeter("Slim Shady")).to.be('Hi, my name is Slim Shady');
+	expect(englishGreeter("Johnny Knoxville")).to.be('Hi, my name is Johnny Knoxville');
+	
+	var spanishGreeter = createGreeter('Hola, me llamo');
+	expect(spanishGreeter('Senor Developer')).to.be('Hola, me llamo Senor Developer');
+
+Man beachte, wie sich die erzeugte Funktion den Parameter aus der Builder-Funktion 'merkt'.
+Genauso behält die Funktion eine Referenz auf jede lokale Variable zum Zeitpunkt der
+Erzeugung. Man nennt diese Eigenschaft 'abgeschlossen'. JavaScript-Funktionen sind also
+echte Closures, wie man sie in Java immer noch vermisst.
+
+Okay, erstmal genug zum Thema Funktionen, weiter gehts mit [Objekten](#!objects)

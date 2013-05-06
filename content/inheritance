@@ -1,0 +1,53 @@
+Vererbung
+=========
+
+JavaScript kennt keine Klassen wie in Java. Vererbt wird in JavaScript,
+indem einem Objekt ein Prototyp zugewiesen wird. Wenn eine Property
+beim eigentlichen Objekt nicht gefunden wird, dann wird sie beim
+Prototyp gesucht.
+
+Die Schwierigkeit ist, dass ein Prototyp nicht einfach zugewiesen werden
+kann. Das geht nur über spezielle Sprachkonstrukte, `new` und `Object.create
+
+new
+---
+
+`new` erzeugt im Wesentlichen ein neues Objekt, dass dann innerhalb
+der Konstruktorfunktion als 'this' verfügbar ist:
+
+	function Tier() {
+		this.property = 'Wert';
+	}
+
+Per Konvention beginnen  Konstruktorfunktionen üblicherweise mit einem
+Großbuchstaben. Ein Aufruf sieht dann fast aus wie die Erzeugung eines
+Java-Objekts
+
+var tier = new Tier();
+
+test: Definiere einen Konstruktor namens auto
+	var testAuto = new Auto();
+	expect(testAuto).to.be.an('object');
+
+test: Auto() soll den tankInhalt initial auf 30 setzen
+	var testAuto = new Auto();
+	expect(testAuto.tankInhalt).to.be(30);
+
+Vererbung geschieht in JavaScript über _Prototypes_. Jedes Objekt
+hat einen Prototyp der einer Art "Superobjekt" darstellt. Wird eine
+Property beim Objekt nicht gefunden, dann wird sie beim Prototyp gesucht.
+
+Um den Prototyp eines Objekts zu setzen hat eine Konstruktorfunktion
+eine Property names `prototype`. Prototype ist _nicht_ der Prototyp
+der Funktion, sondern sagt der Konstruktorfunktion, dass `this` dieses
+Objekt als Prototyp bekommen soll.
+
+	function Hund(){
+		this.wuff = function(){
+			return 'Wuff wuff';
+		}
+	}
+	Hund.prototype = new Tier();
+
+test: Definiere eine Konstruktorfunktion namens Lkw, LKWs sollen von Auto erben
+	expect(Lkw.prototype.constructor).to.be(Auto);

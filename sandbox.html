@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script type="text/javascript" src="lib/expect.js"></script>
+	</head>
+	<body>
+		<h1>this is a javascript sandbox</h1>
+		<script>
+			var MSIE/*@cc_on =1@*/; // sniff
+			if(MSIE){
+				parent.sandbox = this;
+			} else {
+				parent.sandbox = {
+					eval: function(s){
+						console.log('evaluating in sandbox: ' + s)
+						return eval(s);
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

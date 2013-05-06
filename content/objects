@@ -1,0 +1,161 @@
+Objekte
+=======
+
+Ein JavaScript-Objekt erzeugen ist einfach, wir packen einfach ein
+paar Properties in geschweifte Klammern.
+
+	var dackel = {
+		name: 'Bodo',
+		herrchen: 'Dieter Krause'
+		belle: function(){
+			return 'Wau, wau!';
+		}
+	}
+
+test: Definiere ein Objekt 'auto' mit der Farbe 'gelb' und 17l Tankinhalt
+	expect(auto).to.be.an('object');
+	expect(auto.farbe).to.be('gelb');
+	expect(auto.tankInhalt).to.be(17);
+
+test: Das auto hat eine Funktion fahre, die 'brumm' zurückgibt.
+	expect(auto.fahre()).to.equal('brumm');
+
+Ein Objekt kann geändert werden, indem einer Property ein neuer Wert
+zugewiesen wird
+
+	dackel.art = 'Rauhaardackel';
+	dackel.belle = function(){
+		return "Wuff";
+	}
+
+test: Definiere eine Funktion tankeVoll, die den Tankinhalt eines Autos auf 50l setzt
+	tankeVoll(auto);
+	expect(auto.tankInhalt).to.be(50);
+	
+	var testAuto = {tankInhalt: 0};
+	tankeVoll(testAuto);
+	expect(testAuto.tankInhalt).to.be(50);
+
+Bis jetzt können unsere Objekte nicht mehr, als pure Datenstrukturen. Die Funktionen
+in dem Objekt kennen ihr eigenes Objekt nicht, können also weder Werte davon auslesen
+noch ändern.
+
+Um mehr mit Objekten machen zu können benötigen wir das Schlüsselwort `this` und hierzu
+brauchen wir ein wenig Theorie...
+
+	var dogbert = {
+		name: 'Dogbert',
+		profession: 'consultant';
+		sayHello: function(){
+			return 'Hello my name is ' + this. name + ' and I am a ' + this.profession;
+		}
+	}
+
+Sieht in diesem Fall einfach aus, und `dogbert.sayHello();` gibt tatsächlich das erwartete
+zurück. Nun ist JavaScript aber eine höchst dynamische Sprache, Funktionen können an
+verschiedenen Stellen definiert und verschiedenen Objekten als Methode zugewiesen werden.
+Das macht die Sache deutlich komplizierter...
+
+Preisfrage: Was gibt das folgende Fragment auf die Konsole aus, was haltet ihr für sinnvoll?
+
+	var sayName = function(){
+		return 'Hallo ich bin ' + this.name;
+	}
+	
+	var firstObject = {
+		name: 'firstObject',
+		sayMyName: sayName
+	}
+	
+	var secondObject = {
+		name: 'secondObject'
+	}
+	
+	secondObject.sayMyName = sayName;
+	
+	console.log('Rufe Funktion auf firstObject auf: ' + firstObject.sayMyName());
+	console.log('Rufe Funktion auf secondObject auf: ' + secondObject.sayMyName());
+	console.log('Rufe Funktion direkt auf: ' + sayName());
+
+Die richtige Antwort lautet: Es hängt davon ab, wie die Funktion aufgerufen wird.
+Im ersten und zweiten Fall gibt die Funktion tatsächlich zurück:
+
+	Rufe Funktion auf firstObject auf: Hallo ich bin firstObject
+	Rufe Funktion auf secondObject auf: Hallo ich bin secondObject
+
+`this` wird in JavaScript also _dynamisch_ interpretiert, abhängig davon auf welchem
+Objekt eine Funktion aufgerufen wird und für eine Sprache wie JavaScript macht das
+echt Sinn. Alerdings ist diese Bedeutung von `this` ganz anders als das was man von
+Sprachen wie Java kennt. Wenn man das akzeptiert hat kann man ganz gut damit arbeiten.
+
+Bleibt noch die Frage was im dritten Fall aus dem Codebeispiel passiert. Wenn die
+Funktion nicht als Methode aufgerufen wird, dann verwendet JavaScript das globale
+Objekt `window` als `this`. Damit aber erstmal genug Theorie, versuchen wir mal
+`this` zu verwenden:
+
+test: Für jeden gefahrenen Kilometer soll sich der Tankinhalt um eins verringern
+	auto.fahre();
+	expect(auto.tankInhalt).to.be(16);
+	
+	auto.fahre();
+	auto.fahre();
+	
+	expect(auto.tankInhalt).to.be(14);
+	
+	tankeVoll(auto);
+	
+	auto.fahre();
+	auto.fahre();
+	auto.fahre();
+	expect(auto.tankInhalt).to.be(47);
+
+Wenn eine Methode als Callback übergeben wurde, gibt es zwei Patterns, um den
+richtigen Kontext zu wahren:
+
+Bei Inline-Funktionen wird ´this´ an eine lokale Variable gebunden
+
+	 {
+		...
+		belleLeuteAn: function(leute){
+			var thisHund = this;		// Wird oft auch self oder that genannt
+			leute.forEach(function(person){
+				thisHund.belleAn(person);
+			});
+		}
+	 }
+
+test: Implementiere eine Funktion autosMitGleicherFarbe, verwende forEach oder filter
+	var gelbesAuto = {farbe: 'gelb', name: 'gelbesAuto'};
+	var grünesAuto = {farbe: 'grün', name: 'grünesAuto'};
+	var lilaAuto = {farbe: 'lila', name: 'lilaAuto'};
+	var anderesGelbesAuto = {farbe: 'gelb', name: 'anderesGelbesAuto'};
+	var andereAutos = [gelbesAuto, grünesAuto, lilaAuto, anderesGelbesAuto];
+	
+	expect(auto.autosMitGleicherFarbe(andereAutos))
+		.to.only.contain(gelbesAuto, anderesGelbesAuto);
+		
+		auto.farbe = 'lila';
+		
+	expect(auto.autosMitGleicherFarbe(andereAutos))
+		.to.only.contain(lilaAuto);	
+
+Wenn man eine Funktionsreferenz hat, dann muss diese nochmal in eine Funktion
+verpackt werden, damit `this` den richtigen Kontext hat
+
+	function geheGassi(){
+		hund.laufe();
+	}
+	
+	var geheGassi = hund.laufe;		// So nicht, this hat nicht den richtigen Kontext
+
+test: definiere eine Funktion fahreHerum, die mit dem Auto fährt
+	var fahreHasBeenCalled = false;
+	auto.fahre = function(){
+		fahreHasBeenCalled = true;
+	}
+	
+	fahreHerum();
+	expect(fahreHasBeenCalled).to.be(true);
+
+Und das war schon so das Wichtigste zum Thema Objekte, dann fehlt ja nur noch
+[Vererbung](#!inheritance)

@@ -1,0 +1,99 @@
+JavaScript Basics
+=================
+
+Hier nochmal eine kurze Wiederholung der Grundlagen,
+über die wir bereits gesprochen haben und die auf
+eurem Cheat-Sheet stehen sollten. Wer sich in den
+Grundlagen bereits sicher fühlt, kann gleich zu den
+[spannenden Sachen](#!functions) springen.
+
+Von der Syntax her ist JavaScript tatsächlich sehr
+ähnlich zu Java, verschiedene Statements  werden
+hintereinander aufgerufen und mit Semikola getrennt.
+
+Der Wert eines Ausdrucks wird mit `=` einer Variablen
+zugewiesen. Das Schlüsselwort `var <name>` gibt an, dass
+hier eine neue Variable deklariert wird. Variablen
+haben keinen Typ, eine Variable kann also erst einen
+String-Wert haben, dann eine Zahl und danach ein Objekt.
+
+startCode:
+	var x = 'Irgendein Wert';
+	var y = 23;
+	
+	var xPlusAbc = x  + 'asdf';
+	var yPlusDrei = y + 2;
+	
+	var aList = [];
+	
+	var anObject = {
+	  aProperty: 'An Object Property',
+	}
+
+Variablen bekommen mit '=' einen Wert zugewiesen.
+
+test: x sollte einen String-Wert haben, y einen Zahlenwert.
+	expect(x).to.be('Wert von X');
+	expect(y).to.be(42);	
+
+Strings werden mit `+` konkateniert, Zahlen werden addiert.
+
+test: xPlusAbc sollte 'abc' angehängt haben, yPlusDrei sollte 45 sein
+	expect(xPlusAbc).to.be('Wert von Xabc');
+	expect(yPlusDrei).to.be(45);
+
+Andere arithmetische Operationen sind: `- (minus), * (mal), / (geteilt),
+% (modulo)`, ebenso gibt es die Abkürzungen `+=` und `-=`.
+
+Listen werden in JavaScript angelegt, indem mehrere Elemente mit Kommata getrennt
+in eckige Klammern zusammengefasst werden.
+
+test: aList sollte die Zahlen von eins bis fünf enthalten
+	expect(aList[0]).to.be(1);
+	expect(aList[1]).to.be(2);
+	expect(aList[2]).to.be(3);
+
+Objekte werden einfach mit geschweiften Klammern deklariert,
+die einzelnen Properties werden mit `<name>:<wert>` angegeben.
+
+test: anObject sollte die Property numberProperty mit dem Wert 42 enthalten
+	expect(anObject.numberProperty).to.be(42);
+
+Objektdeklarationen können geschachtelt werden, indem als Property-Wert 
+einfach ein weiteres Objekt angegeben wird.
+
+test: anObject sollte ein geschachteltes Object enthalten
+	expect(anObject.geschachteltesObjekt).to.be.an('object');
+	expect(anObject.geschachteltesObjekt.geschachtelterWert).to.be(23);
+
+Auch wenn das Objekt einmal deklariert ist, können Properties jederzeit
+hinzugefügt oder umbenannt werden.
+
+test: anObject sollte die Property 'newProperty' mit dem Wert 'asdf' zugewiesen bekommen
+	expect(anObject.newProperty).to.be('asdf');
+
+In JavaScript werden wiederverwendbare Code-Fragmente in Funktionen deklariert.
+Eine Funktion kann mehrere Eingabeparameter und einen Rückgabewert haben. Die
+Syntax hierzu lautet:
+
+	function xy (parameterEins, parameterZwei){
+	  ...
+	  return irgendEinWert;
+	};
+
+test: add sollte eine Funktion sein, die a und b addiert.
+	expect(add).to.be.a('function');
+	expect(add(2, 0)).to.be(2);
+	expect(add(0, 3)).to.be(3);
+	expect(add(4, 9)).to.be(13);
+
+Funktionen können mit `attribut: function(...` auch einem Objekt als Attribut
+hinzugefügt werden. Dann funktionieren sie so ähnlich wie Methoden in Java. 
+
+test: anObject sollte die Funktion 'sayMyName' enthalten
+	expect(anObject.sayMyName).to.be.a('function');
+	expect(anObject.sayMyName()).to.be('Hello, i am anObject');
+
+Das waren so im Wesentlichen die syntaktischen Grundlagen der Sprache, im
+[nächsten Abschnitt](#!functions) wollen wir uns Funktionen mal etwas
+genauer anschauen.

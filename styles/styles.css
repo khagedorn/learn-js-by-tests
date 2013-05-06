@@ -1,0 +1,138 @@
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Quicksand Regular'), local('Quicksand-Regular'), url(quicksand.ttf) format('truetype');
+}
+
+body {
+	background-color: #E3E3C7;
+	margin-left:35px;
+}
+
+h1 {
+	font-family: arial;
+}
+
+.codeContainer {
+	border: 1px solid gray;
+	border-radius: 5px;
+	box-shadow: inset 3px 3px 5px #ccc;
+	position: relative;
+	padding: 5px;
+	min-height: 250px;
+	margin-bottom: 5px;
+	background-color: white;
+}
+
+.testResult {
+	border-radius: 7px;
+	padding: 6px 6px 0 6px;
+	margin: 13px 0px;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15); 
+	background-image: linear-gradient(to bottom, rgba(255,255,255, 0.3) 15%, rgba(0,0,0, 0.5) 100%);
+	position: relative;
+}
+
+.testResult .header {
+	width: 100%;
+	height: 24px;
+}
+
+.testResult .header > * {
+	display: inline-block;
+	height: 100%;
+}
+
+.testResult .header .icon {
+	background-size: 100% auto;
+	background-repeat: no-repeat; 
+	background-position: center center;
+	
+	width: 24px;
+}
+
+
+.testResult .expandButton {
+	float: right;	
+	cursor: pointer;
+	background-image: url(../img/down.png);
+}
+
+.testResult.expanded {
+	padding-bottom: 6px;
+}
+
+.testResult.expanded .header {
+	box-shadow: 0 8px 6px -8px black;
+}
+
+.testResult.expanded .expandButton {
+	background-image: url(../img/up.png);
+}
+
+.testResult h6 {
+	display: inline;
+	height: 100%;
+	vertical-align: top;
+	margin: 5px 3px 0px 3px;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 13px;
+	text-shadow: 0px 0px 2px rgba(255,255,255,0.4);
+	
+}
+
+.testResult.success {
+	background-color: green;	
+}
+
+.testResult.success .statusIcon {
+	background-image: url(../img/test_succeeded.png);
+}
+
+.testResult.failure {
+	background-color: #ea2506;
+}
+
+.testResult.failure .statusIcon {
+	background-image: url(../img/test_failed.png);
+}
+
+.testResult.running .statusIcon {
+	background-image: url(../img/running.gif);
+}
+
+.testResult .content {
+	visibility: hidden;
+	height: 0;
+}
+
+.resultMessage{
+	font-family: sans;
+	background-color: white;
+	padding: 3px 10px;
+	border: 1px solid black;
+}
+
+.testResult.expanded .content {
+	visibility: visible;
+	height: auto;
+	padding: 5px 15px;
+}
+
+.testCode {
+	background-color: #ccc;
+	border: 1px solid black;
+	margin: 7px 0px;
+}
+
+.exercise {
+	width: 800px;
+	position: relative;
+	font-family: arial;
+}
+
+/* fix an ugly margin in the syntaxhighlighter css */
+.syntaxhighlighter.js {
+	margin: 0 !important;
+}

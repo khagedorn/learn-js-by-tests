@@ -1,0 +1,38 @@
+JavaScript - Diese Umgebung
+=========================
+
+Dieses Ding soll eine interaktive Umgebung sein, in der man
+JavaScript anhand von vorgegebenen Testfällen kennen lernen kann.
+
+Weiter unten gibt es grüne und rote Klötze, das sind die Tests.
+Einer der roten Tests sollte bereits aufgeklappt sein. Darin steht
+der Testcode, sowie der Grund warum der Test fehgeschlagen ist.
+
+startCode:
+	function add (){
+		/*	Das ist ein Editor, der Code darin
+			kann geändert und mit STRG + RETURN
+			augeführt werden */
+	}
+
+test: Dein Code sollte eine Funktion names 'add' enthalten
+	expect(add).to.be.a('function');
+
+Probiert doch mal den nächsten Test grün zu bekommen.
+
+test: 2 + 0 sollte 2 ergeben
+	expect(add(2, 0)).to.be(2);
+
+Ab hier wirds fast schon schwierig, die Funktion benötigt
+Parameter. Parameter werden in der runden Klammer hinter 
+`function`, mit Kommata getrennt und ohne Typangabe angegenen.
+
+Etwa so: `function(parameterEins, parameterZwei)`
+
+test: 0 + 3 sollte 3 ergeben
+	expect(add(0, 3)).to.be(3);
+
+test: 4 + 7 sollte 11 ergeben
+	expect(add(4, 7)).to.be(11);
+
+Alles Grün? Dann weiter zum [nächsten Kapitel](#!basics);
